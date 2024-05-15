@@ -5,7 +5,9 @@ import com.javaguides.blogapp.model.Post;
 import com.javaguides.blogapp.repository.IPostRepository;
 import com.javaguides.blogapp.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PostService implements IPostService {
 
     private IPostRepository postRepository;
