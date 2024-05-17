@@ -6,6 +6,7 @@ import com.javaguides.blogapp.exception.ResourceNotFoundException;
 import com.javaguides.blogapp.model.Post;
 import com.javaguides.blogapp.repository.IPostRepository;
 import com.javaguides.blogapp.service.IPostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 public class PostService implements IPostService {
 
     private IPostRepository postRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public PostService(IPostRepository postRepository) {
+    public PostService(IPostRepository postRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -99,19 +102,12 @@ public class PostService implements IPostService {
 
     //Convert Entity to Dto
     private PostDto mapToDto(Post post) {
-        PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());
+        PostDto postDto = modelMapper.map(post,PostDto.class);
         return postDto;
     }
 
     private Post mapToEntity(PostDto postDto) {
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
+        Post post = modelMapper.map(postDto, Post.class);
         return post;
     }
 
