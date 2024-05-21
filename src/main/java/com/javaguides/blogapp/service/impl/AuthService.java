@@ -7,6 +7,7 @@ import com.javaguides.blogapp.model.Role;
 import com.javaguides.blogapp.model.User;
 import com.javaguides.blogapp.repository.IRoleRepository;
 import com.javaguides.blogapp.repository.IUserRepository;
+import com.javaguides.blogapp.security.JwtTokenProvider;
 import com.javaguides.blogapp.service.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,19 @@ public class AuthService implements IAuthService {
     private IUserRepository userRepository;
     private IRoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, IUserRepository userRepository, IRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(AuthenticationManager authenticationManager,
+                       IUserRepository userRepository,
+                       IRoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -44,7 +51,9 @@ public class AuthService implements IAuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return "User Login Successfuly";
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return token;
     }
 
     @Override

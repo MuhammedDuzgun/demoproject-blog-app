@@ -1,5 +1,6 @@
 package com.javaguides.blogapp.controller;
 
+import com.javaguides.blogapp.dto.JWTAuthResponse;
 import com.javaguides.blogapp.dto.LoginDto;
 import com.javaguides.blogapp.dto.RegisterDto;
 import com.javaguides.blogapp.service.impl.AuthService;
@@ -23,9 +24,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        String loginRespnse = authService.login(loginDto);
-        return ResponseEntity.ok(loginRespnse);
+    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto) {
+        String token = authService.login(loginDto);
+
+        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+        return ResponseEntity.ok(jwtAuthResponse);
     }
 
     @PostMapping("/register")
