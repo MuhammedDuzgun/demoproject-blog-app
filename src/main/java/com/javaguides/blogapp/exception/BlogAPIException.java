@@ -11,12 +11,6 @@ public class BlogAPIException extends RuntimeException{
         this.message = message;
     }
 
-    public BlogAPIException(String message, HttpStatus httpStatus, String message1) {
-        super(message);
-        this.httpStatus = httpStatus;
-        this.message = message1;
-    }
-
     public HttpStatus getHttpStatus() {
         return httpStatus;
     }
