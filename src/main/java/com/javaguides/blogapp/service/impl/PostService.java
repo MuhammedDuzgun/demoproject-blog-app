@@ -90,7 +90,7 @@ public class PostService implements IPostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post" , "id" , id));
 
-        //check post's category is exists
+        //check post's category exists
         Category category = categoryRepository.findById(postDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", postDto.getCategoryId()));
 
