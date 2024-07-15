@@ -1,11 +1,15 @@
 package com.javaguides.blogapp;
 
+import com.javaguides.blogapp.model.Role;
+import com.javaguides.blogapp.repository.IRoleRepository;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +35,7 @@ import org.springframework.context.annotation.Bean;
 				url = "https://github.com/MuhammedDuzgun/fukantin"
 		)
 )
-public class DemoprojectBlogAppApplication {
+public class DemoprojectBlogAppApplication implements CommandLineRunner {
 
 	@Bean
 	public ModelMapper modelMapper() {
@@ -42,4 +46,17 @@ public class DemoprojectBlogAppApplication {
 		SpringApplication.run(DemoprojectBlogAppApplication.class, args);
 	}
 
+	@Autowired
+	private IRoleRepository roleRepository;
+
+	@Override
+	public void run(String... args) throws Exception {
+		Role roleAdmin = new Role();
+		roleAdmin.setName("ROLE_ADMIN");
+		roleRepository.save(roleAdmin);
+
+		Role roleUser = new Role();
+		roleUser.setName("ROLE_USER");
+		roleRepository.save(roleUser);
+	}
 }
